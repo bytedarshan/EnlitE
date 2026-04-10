@@ -10,7 +10,7 @@ import Contact from './pages/Contact';
 
 function App() {
   return (
-    <Router basename="/EnlitE">
+    <Router>
       <div className="flex flex-col min-h-screen bg-slate-50 text-slate-800 font-sans">
         <Navbar />
         <main className="flex-grow">
