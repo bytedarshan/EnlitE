@@ -1,10 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { servicesData } from '../data/servicesData'; // Importing our data
+import { servicesData } from '../data/servicesData';
 
 const Services = () => {
-  // Convert our data object into an array for easy mapping
   const servicesList = Object.values(servicesData);
 
   const containerVariants = {
@@ -15,6 +14,17 @@ const Services = () => {
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+  };
+
+  // Catchy card hover
+  const cardHover = {
+    hover: { 
+      y: -10, 
+      scale: 1.03, 
+      boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+      borderColor: "#8B5CF6", // Turns the border light violet
+      transition: { type: "spring", stiffness: 300, damping: 20 }
+    }
   };
 
   return (
@@ -42,13 +52,20 @@ const Services = () => {
             <Link to={`/services/${service.id}`} key={service.id}>
               <motion.div 
                 variants={itemVariants}
-                whileHover={{ y: -5, scale: 1.02 }}
-                className="bg-white p-8 rounded-xl shadow-sm border border-slate-200 hover:border-violet-400 hover:shadow-lg transition-all duration-300 flex flex-col justify-center h-full cursor-pointer"
+                whileHover={cardHover.hover}
+                className="bg-white p-8 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-center h-full cursor-pointer bg-white"
               >
-                <h3 className="text-xl font-medium text-slate-800 mb-3">{service.title}</h3>
+                <h3 className="text-xl font-bold text-slate-800 mb-3">{service.title}</h3>
                 <p className="text-slate-600 text-sm leading-relaxed">{service.shortDesc}</p>
-                <div className="mt-4 text-violet-600 font-medium text-sm flex items-center">
-                  Learn more <span className="ml-1">→</span>
+                <div className="mt-6 text-violet-600 font-bold text-sm flex items-center group">
+                  Learn more 
+                  <motion.span 
+                    initial={{ x: 0 }}
+                    whileHover={{ x: 5 }}
+                    className="ml-1 text-lg"
+                  >
+                    →
+                  </motion.span>
                 </div>
               </motion.div>
             </Link>
@@ -57,13 +74,20 @@ const Services = () => {
         
         <motion.div 
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-          className="mt-20 bg-violet-800 rounded-2xl p-10 text-center shadow-md"
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          whileHover={{ scale: 1.01, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2)" }}
+          className="mt-20 bg-violet-800 rounded-3xl p-12 text-center shadow-lg cursor-default transition-all"
         >
             <h3 className="text-2xl text-white font-medium mb-4">Ready to start your journey?</h3>
-            <p className="text-violet-100 mb-8 max-w-xl mx-auto">Call our clinic to discuss which service is right for you. We ensure strict confidentiality.</p>
-            <p className="text-3xl text-white tracking-wide font-semibold">+91 98840 27755</p>
+            <p className="text-violet-200 mb-8 max-w-xl mx-auto text-lg">Call our clinic to discuss which service is right for you. We ensure strict confidentiality.</p>
+            <motion.p 
+              whileHover={{ scale: 1.05 }}
+              className="text-4xl text-white tracking-wider font-bold inline-block cursor-pointer"
+            >
+              +91 98840 27755
+            </motion.p>
         </motion.div>
       </div>
     </div>

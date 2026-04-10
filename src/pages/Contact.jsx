@@ -47,7 +47,7 @@ const Contact = () => {
           
           {/* Form Section */}
           <motion.div initial="hidden" animate="visible" variants={fadeUp} className="bg-white p-8 rounded-xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-medium text-slate-800 mb-6">Send a Message</h2>
+            <h2 className="text-2xl font-medium text-slate-800 mb-6">Book an Appointment</h2>
             
             <form ref={form} onSubmit={sendEmail} className="space-y-6">
               
@@ -105,7 +105,7 @@ const Contact = () => {
                 {status === 'sending' ? 'Sending...' : 
                  status === 'success' ? 'Message Sent Successfully!' : 
                  status === 'error' ? 'Failed to Send. Try Again.' : 
-                 'Send Message'}
+                 'Book Appointment'}
               </button>
             </form>
           </motion.div>
