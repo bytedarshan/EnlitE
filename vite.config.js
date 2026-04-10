@@ -7,4 +7,5 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  base: "/EnlitE/", // Add this line exactly like this
 })
