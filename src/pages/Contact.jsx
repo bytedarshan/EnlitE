@@ -1,10 +1,38 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
+  const form = useRef();
+  const [status, setStatus] = useState('idle'); // 'idle', 'sending', 'success', 'error'
+
   const fadeUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  };
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setStatus('sending');
+
+    // Your actual Service ID is now here:
+    const serviceID = 'service_tg9wn17'; 
+    
+    // YOU STILL NEED TO REPLACE THESE TWO:
+    const templateID = 'template_e3c22mg';
+    const publicKey = 'dRP3wxLYd8RnY_Fxp';
+
+    emailjs.sendForm(serviceID, templateID, form.current, publicKey)
+      .then((result) => {
+          console.log(result.text);
+          setStatus('success');
+          form.current.reset(); // Clears the form after sending
+          setTimeout(() => setStatus('idle'), 5000); // Reset button after 5 seconds
+      }, (error) => {
+          console.log(error.text);
+          setStatus('error');
+          setTimeout(() => setStatus('idle'), 5000);
+      });
   };
 
   return (
@@ -19,55 +47,65 @@ const Contact = () => {
           
           {/* Form Section */}
           <motion.div initial="hidden" animate="visible" variants={fadeUp} className="bg-white p-8 rounded-xl shadow-sm border border-slate-100">
-            <h2 className="text-2xl font-medium text-slate-800 mb-6">Book an Appointment</h2>
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <h2 className="text-2xl font-medium text-slate-800 mb-6">Send a Message</h2>
+            
+            <form ref={form} onSubmit={sendEmail} className="space-y-6">
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">Name</label>
-                  <input type="text" id="name" className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors bg-white" placeholder="Your Name" />
+                  <label htmlFor="user_name" className="block text-sm font-medium text-slate-700 mb-1">Name</label>
+                  <input type="text" name="user_name" id="user_name" required className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors bg-white" placeholder="Your Name" />
                 </div>
                 <div>
-                  <label htmlFor="mobile" className="block text-sm font-medium text-slate-700 mb-1">Mobile Number</label>
-                  <input type="tel" id="mobile" className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors bg-white" placeholder="+91 XXXXX XXXXX" />
+                  <label htmlFor="user_mobile" className="block text-sm font-medium text-slate-700 mb-1">Mobile Number</label>
+                  <input type="tel" name="user_mobile" id="user_mobile" required className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors bg-white" placeholder="+91 XXXXX XXXXX" />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">Email</label>
-                <input type="email" id="email" className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors bg-white" placeholder="your@email.com" />
+                <label htmlFor="user_email" className="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                <input type="email" name="user_email" id="user_email" required className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors bg-white" placeholder="your@email.com" />
               </div>
 
-              {/* Service Dropdown */}
               <div>
-                <label htmlFor="service" className="block text-sm font-medium text-slate-700 mb-1">Required Service</label>
-                <select id="service" defaultValue="" className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors bg-white text-slate-700 cursor-pointer">
+                <label htmlFor="service_required" className="block text-sm font-medium text-slate-700 mb-1">Required Service</label>
+                <select name="service_required" id="service_required" required defaultValue="" className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors bg-white text-slate-700 cursor-pointer">
                   <option value="" disabled>Select a service...</option>
-                  <option value="therapy">Individual, Group & Family Therapy</option>
-                  <option value="assessment">Assessment & Diagnosis</option>
-                  <option value="counselling">Mental Health Counselling</option>
-                  <option value="specialized">Specialized Programs</option>
-                  <option value="career">Career Guidance</option>
+                  <option value="Individual, Group & Family Therapy">Individual, Group & Family Therapy</option>
+                  <option value="Assessment & Diagnosis">Assessment & Diagnosis</option>
+                  <option value="Mental Health Counselling">Mental Health Counselling</option>
+                  <option value="Specialized Programs">Specialized Programs</option>
+                  <option value="Career Guidance">Career Guidance</option>
                 </select>
               </div>
 
-              {/* Meeting Mode Dropdown */}
               <div>
-                <label htmlFor="meetingMode" className="block text-sm font-medium text-slate-700 mb-1">Meeting Mode</label>
-                <select id="meetingMode" defaultValue="" className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors bg-white text-slate-700 cursor-pointer">
+                <label htmlFor="meeting_mode" className="block text-sm font-medium text-slate-700 mb-1">Meeting Mode</label>
+                <select name="meeting_mode" id="meeting_mode" required defaultValue="" className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors bg-white text-slate-700 cursor-pointer">
                   <option value="" disabled>Select meeting mode...</option>
-                  <option value="clinic">In-Clinic Visit</option>
-                  <option value="online">Online Consultation</option>
+                  <option value="In-Clinic Visit">In-Clinic Visit</option>
+                  <option value="Online Consultation">Online Consultation</option>
                 </select>
               </div>
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">Additional Message</label>
-                <textarea id="message" rows="4" className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors resize-none bg-white" placeholder="How can we help you?"></textarea>
+                <textarea name="message" id="message" rows="4" required className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors resize-none bg-white" placeholder="How can we help you?"></textarea>
               </div>
               
-              <button type="submit" className="w-full bg-violet-600 text-white font-medium py-3 px-4 rounded-md hover:bg-violet-700 transition-colors duration-300">
-                Book Appointment
+              <button 
+                type="submit" 
+                disabled={status === 'sending'}
+                className={`w-full text-white font-medium py-3 px-4 rounded-md transition-all duration-300 ${
+                  status === 'success' ? 'bg-green-600 hover:bg-green-700' :
+                  status === 'error' ? 'bg-red-600 hover:bg-red-700' :
+                  'bg-violet-600 hover:bg-violet-700 disabled:opacity-70'
+                }`}
+              >
+                {status === 'sending' ? 'Sending...' : 
+                 status === 'success' ? 'Message Sent Successfully!' : 
+                 status === 'error' ? 'Failed to Send. Try Again.' : 
+                 'Send Message'}
               </button>
             </form>
           </motion.div>
