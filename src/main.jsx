@@ -1,11 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Analytics } from "@vercel/analytics/next"
 import './index.css' // THIS LINE IS CRITICAL
 import App from './App.jsx'
+import { Analytics } from "@vercel/analytics/next"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
+    <Analytics /> {/* Add it right here, below App */}
   </StrictMode>,
 )
