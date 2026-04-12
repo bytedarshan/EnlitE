@@ -1,5 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { Analytics } from "@vercel/analytics/next"
 import './index.css' // THIS LINE IS CRITICAL
 import App from './App.jsx'
 
