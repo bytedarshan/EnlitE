@@ -7,7 +7,7 @@ import About from './pages/About';
 import Services from './pages/Services';
 import ServiceDetail from './pages/ServiceDetail'; // Imported the new page
 import Contact from './pages/Contact';
-import AdminDashboard from './pages/Admin/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import Gallery from './pages/Gallery';
 
 function App() {
