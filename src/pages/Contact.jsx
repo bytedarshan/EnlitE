@@ -15,10 +15,7 @@ const Contact = () => {
     e.preventDefault();
     setStatus('sending');
 
-    // Your actual Service ID is now here:
     const serviceID = 'service_n29sg3c'; 
-    
-    // YOU STILL NEED TO REPLACE THESE TWO:
     const templateID = 'template_agysbr6';
     const publicKey = '80hk1SJWU3mrnF0b7';
 
@@ -26,8 +23,8 @@ const Contact = () => {
       .then((result) => {
           console.log(result.text);
           setStatus('success');
-          form.current.reset(); // Clears the form after sending
-          setTimeout(() => setStatus('idle'), 5000); // Reset button after 5 seconds
+          form.current.reset(); 
+          setTimeout(() => setStatus('idle'), 5000); 
       }, (error) => {
           console.log(error.text);
           setStatus('error');
@@ -86,6 +83,12 @@ const Contact = () => {
                   <option value="In-Clinic Visit">In-Clinic Visit</option>
                   <option value="Online Consultation">Online Consultation</option>
                 </select>
+              </div>
+
+              {/* --- NEW REFERENCE FIELD --- */}
+              <div>
+                <label htmlFor="reference_source" className="block text-sm font-medium text-slate-700 mb-1">Reference (How did you hear about us?)</label>
+                <input type="text" name="reference_source" id="reference_source" className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors bg-white" placeholder="e.g., Google, Practo, Friend's Name" />
               </div>
 
               <div>

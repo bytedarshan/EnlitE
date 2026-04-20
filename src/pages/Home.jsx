@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import roshniImage from '../data/images/roshni.png';
+import roshniImage from '../data/images/roshni2.jpg';
 
 const Home = () => {
   const fadeUp = {
