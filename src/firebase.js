@@ -1,6 +1,7 @@
 // src/firebase.js
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth"; // <-- ADD THIS NEW IMPORT
 
 // REPLACE THESE WITH YOUR ACTUAL KEYS FROM FIREBASE
 const firebaseConfig = {
@@ -17,3 +18,4 @@ const app = initializeApp(firebaseConfig);
 
 // Export the database so our Dashboard can use it
 export const db = getFirestore(app);
+export const auth = getAuth(app); // <-- ADD THIS NEW EXPORT

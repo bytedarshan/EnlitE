@@ -9,6 +9,9 @@ import ServiceDetail from './pages/ServiceDetail'; // Imported the new page
 import Contact from './pages/Contact';
 import AdminDashboard from './pages/Admin/Dashboard';
 import Gallery from './pages/Gallery';
+import Achievements from './pages/Achievements';
+import Login from './pages/Admin/Login';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -23,8 +26,14 @@ function App() {
             {/* Added Dynamic Route for Services */}
             <Route path="/services/:id" element={<ServiceDetail />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/achievements" element={<Achievements />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } />
           </Routes>
         </main>
         <Footer />

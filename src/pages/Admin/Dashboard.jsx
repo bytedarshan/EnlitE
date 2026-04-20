@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { db } from '../../firebase';
+import { Link, useNavigate } from 'react-router-dom';
+import { db, auth } from '../../firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { signOut } from 'firebase/auth';
 
 const AdminDashboard = () => {
   // --- CLOUDINARY SETTINGS ---
   const CLOUD_NAME = "dojfcjtgn"; 
   const UPLOAD_PRESET = "enlite_uploads"; 
+
+  const navigate = useNavigate(); // <-- Added for logout redirection
 
   const [activeTab, setActiveTab] = useState('gallery');
   
@@ -27,6 +30,16 @@ const AdminDashboard = () => {
     fetchAchievements();
     window.scrollTo(0, 0);
   }, []);
+
+  // --- LOGOUT FUNCTION ---
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/login');
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   // --- FETCH FUNCTIONS ---
   const fetchGallery = async () => {
@@ -188,6 +201,13 @@ const AdminDashboard = () => {
             </span>
             <div className="flex items-center space-x-4">
               <Link to="/" className="text-sm font-medium text-slate-500 hover:text-violet-600 transition-colors">View Public Site ↗</Link>
+              {/* --- FUNCTIONAL LOGOUT BUTTON --- */}
+              <button 
+                onClick={handleLogout}
+                className="bg-slate-900 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-md hover:bg-slate-800 transition-all"
+              >
+                Logout
+              </button>
             </div>
           </div>
         </div>
