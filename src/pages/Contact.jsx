@@ -16,11 +16,11 @@ const Contact = () => {
     setStatus('sending');
 
     // Your actual Service ID is now here:
-    const serviceID = 'service_tg9wn17'; 
+    const serviceID = 'service_n29sg3c'; 
     
     // YOU STILL NEED TO REPLACE THESE TWO:
-    const templateID = 'template_e3c22mg';
-    const publicKey = 'dRP3wxLYd8RnY_Fxp';
+    const templateID = 'template_agysbr6';
+    const publicKey = '80hk1SJWU3mrnF0b7';
 
     emailjs.sendForm(serviceID, templateID, form.current, publicKey)
       .then((result) => {
