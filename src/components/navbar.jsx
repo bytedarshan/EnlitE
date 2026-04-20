@@ -6,10 +6,12 @@ import logoImage from './logo.png';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Added Gallery right before Contact
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
+    { name: 'Gallery', path: '/gallery' }, 
     { name: 'Contact', path: '/contact' },
   ];
 

@@ -7,6 +7,8 @@ import About from './pages/About';
 import Services from './pages/Services';
 import ServiceDetail from './pages/ServiceDetail'; // Imported the new page
 import Contact from './pages/Contact';
+import AdminDashboard from './pages/Admin/dashboard';
+import Gallery from './pages/Gallery';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
             {/* Added Dynamic Route for Services */}
             <Route path="/services/:id" element={<ServiceDetail />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/gallery" element={<Gallery />} />
           </Routes>
         </main>
         <Footer />

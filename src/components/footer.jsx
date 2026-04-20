@@ -12,8 +12,9 @@ const Footer = () => {
         <div>
           <h4 className="text-lg font-medium mb-4 text-white">Contact Information</h4>
           <address className="not-italic text-sm space-y-2">
-            <p>KHAMADHENU HOUSE, Door No: 11/5, First Floor,</p>
-            <p>Gandhi Avenue Street, Purasawalkam,</p>
+            <p>PRIDE Superspeciality Hospital</p>
+            <p>Pulianthope High Road, near SPR City,</p>
+            <p>Pattalam, Perambur</p>
             <p>Chennai - 600084.</p>
             <p className="pt-2"><strong>Mob No:</strong> +91 98840 27755</p>
             <p><strong>Email Id:</strong> enlitecpp@gmail.com</p>
