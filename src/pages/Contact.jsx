@@ -1,17 +1,19 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
+import { db } from '../firebase'; // <-- Import Firebase
+import { collection, addDoc } from 'firebase/firestore'; // <-- Import Firestore tools
 
 const Contact = () => {
   const form = useRef();
-  const [status, setStatus] = useState('idle'); // 'idle', 'sending', 'success', 'error'
+  const [status, setStatus] = useState('idle');
 
   const fadeUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
 
-  const sendEmail = (e) => {
+  const sendEmail = async (e) => {
     e.preventDefault();
     setStatus('sending');
 
@@ -19,17 +21,35 @@ const Contact = () => {
     const templateID = 'template_agysbr6';
     const publicKey = '80hk1SJWU3mrnF0b7';
 
-    emailjs.sendForm(serviceID, templateID, form.current, publicKey)
-      .then((result) => {
-          console.log(result.text);
-          setStatus('success');
-          form.current.reset(); 
-          setTimeout(() => setStatus('idle'), 5000); 
-      }, (error) => {
-          console.log(error.text);
-          setStatus('error');
-          setTimeout(() => setStatus('idle'), 5000);
-      });
+    // 1. Capture the form data BEFORE the form resets
+    const formData = new FormData(form.current);
+    const appointmentData = {
+      name: formData.get('user_name'),
+      mobile: formData.get('user_mobile'),
+      email: formData.get('user_email'),
+      service: formData.get('service_required'),
+      mode: formData.get('meeting_mode'),
+      reference: formData.get('reference_source') || 'None provided',
+      message: formData.get('message'),
+      createdAt: Date.now()
+    };
+
+    try {
+      // 2. Send the Email via EmailJS
+      await emailjs.sendForm(serviceID, templateID, form.current, publicKey);
+      
+      // 3. Save a backup copy to the Firebase Dashboard
+      await addDoc(collection(db, "messages"), appointmentData);
+
+      setStatus('success');
+      form.current.reset(); 
+      setTimeout(() => setStatus('idle'), 5000); 
+
+    } catch (error) {
+      console.error("Submission failed:", error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
   };
 
   return (
@@ -42,12 +62,10 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           
-          {/* Form Section */}
           <motion.div initial="hidden" animate="visible" variants={fadeUp} className="bg-white p-8 rounded-xl shadow-sm border border-slate-100">
             <h2 className="text-2xl font-medium text-slate-800 mb-6">Book an Appointment</h2>
             
             <form ref={form} onSubmit={sendEmail} className="space-y-6">
-              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="user_name" className="block text-sm font-medium text-slate-700 mb-1">Name</label>
@@ -85,7 +103,6 @@ const Contact = () => {
                 </select>
               </div>
 
-              {/* --- NEW REFERENCE FIELD --- */}
               <div>
                 <label htmlFor="reference_source" className="block text-sm font-medium text-slate-700 mb-1">Reference (How did you hear about us?)</label>
                 <input type="text" name="reference_source" id="reference_source" className="w-full border border-slate-300 rounded-md p-3 focus:ring-violet-500 focus:border-violet-500 outline-none transition-colors bg-white" placeholder="e.g., Google, Practo, Friend's Name" />
@@ -113,7 +130,6 @@ const Contact = () => {
             </form>
           </motion.div>
 
-          {/* Info Section */}
           <motion.div initial="hidden" animate="visible" variants={fadeUp} className="space-y-8">
             <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-100">
               <h3 className="text-xl font-medium text-slate-800 mb-4">Operation Hours</h3>
