@@ -7,7 +7,7 @@ import About from './pages/About';
 import Services from './pages/Services';
 import ServiceDetail from './pages/ServiceDetail'; // Imported the new page
 import Contact from './pages/Contact';
-import AdminDashboard from './pages/Admin/Dashboard';
+import AdminDashboard from './pages/Admin/Dash';
 import Gallery from './pages/Gallery';
 import Achievements from './pages/Achievements';
 import Login from './pages/Admin/Login';
